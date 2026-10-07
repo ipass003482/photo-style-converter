@@ -1,0 +1,10 @@
+Title: Bibury Cottages
+Author: Saffron Blaze
+Source page: https://commons.wikimedia.org/wiki/File:Bibury_Cottages.jpg
+Image URL: https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Bibury_Cottages.jpg/960px-Bibury_Cottages.jpg
+License selected: Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
+License URL: https://creativecommons.org/licenses/by-sa/3.0/
+Downloaded: 2026-10-07
+Dimensions: 960 x 686 px
+Suggested attribution: “Bibury Cottages” by Saffron Blaze, CC BY-SA 3.0, via Wikimedia Commons. Demo filters applied.
+Requirement: Give attribution, link license and identify modifications; distribute any transformed demo image under the same or compatible license.

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6540cd">
+  <meta name="description" content="照片風格轉換：鉛筆素描、AI 童話 Q 版、前後比較與圖片下載。">
+  <title>照片風格轉換</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%236540cd'/%3E%3Cpath d='M20 7l3.7 9.3L33 20l-9.3 3.7L20 33l-3.7-9.3L7 20l9.3-3.7Z' fill='white'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <header class="header">
+    <a class="brand" href="./" aria-label="照片風格轉換首頁"><span class="brand-mark" aria-hidden="true">✦</span><span>照片風格轉換</span></a>
+    <span class="privacy" id="privacy-label">鉛筆：本機處理 · Q 版：雲端重繪</span>
+  </header>
+  <main>
+
+    <div class="workspace">
+      <section class="studio" aria-labelledby="photo-heading">
+        <div class="studio-toolbar"><div class="photo-title"><h2 id="photo-heading">你的照片</h2><span class="badge" id="source-badge">尚未選擇</span></div><button class="button button-small button-outline" id="upload-button" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m-5 5 5-5 5 5M4 15v5h16v-5"/></svg>選擇照片</button></div>
+        <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp,image/avif,image/heic,image/heif" hidden>
+        <div class="preview" id="drop-zone">
+          <div class="empty-state" id="empty-state"><div class="empty-symbol" aria-hidden="true">✧</div><h3>選擇照片開始</h3><p>選擇一張照片，或直接拖曳到這裡</p><button type="button" class="button button-primary" id="empty-upload">開啟相簿</button><button type="button" class="text-button" id="demo-button">先試試示範照片</button></div>
+          <div class="comparison" id="comparison" hidden>
+            <canvas id="result-canvas" aria-label="套用效果後的照片"></canvas>
+            <div class="original-layer" id="original-layer"><canvas id="original-canvas" aria-label="原始照片"></canvas></div>
+            <span class="image-label original-label">原圖</span><span class="image-label result-label" id="result-label">童話 Q 版</span>
+            <div class="divider" id="divider" aria-hidden="true"><span>‹ ›</span></div>
+            <input class="compare-slider" id="compare-slider" type="range" min="0" max="100" value="38" aria-label="前後比較分界；向左拖曳查看更多效果">
+          </div>
+          <div class="busy-overlay" id="busy-overlay" hidden><span class="spinner"></span><span id="busy-label">正在處理照片…</span><button type="button" id="cancel-ai" class="text-button" hidden>取消等待</button></div>
+          <div class="drag-overlay" id="drag-overlay" hidden>放開以選取照片</div>
+        </div>
+        <div class="preview-footer"><span id="image-info">JPG、PNG、WebP · 單張上限 25 MB</span><button type="button" class="text-button compare-toggle" id="view-toggle" disabled>看完整效果</button></div>
+        <p class="status" id="status" role="status" aria-live="polite">不用註冊，選好照片就能開始。</p>
+        <details id="save-help" hidden><summary>手機下載有困難？展開圖片後長按儲存</summary><img id="saved-image" alt="可長按儲存的處理後作品"></details>
+        <p class="demo-credit" id="demo-credit" hidden>示範：<a href="https://commons.wikimedia.org/wiki/File:Bibury_Cottages.jpg" target="_blank" rel="noopener noreferrer">Bibury Cottages</a>／Saffron Blaze，<a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 3.0</a>。示範 Q 版由 FLUX.2 重繪；修改後的示範作品沿用同一授權。</p>
+      </section>
+      <aside class="controls" aria-label="照片風格設定">
+        <div class="control-heading"><span class="step">01</span><h2>選擇風格</h2></div>
+        <div class="style-options" role="group" aria-label="選擇風格">
+          <button class="style-card selected" type="button" data-style="chibi" aria-pressed="true"><span class="style-icon fairy-icon" aria-hidden="true">✧</span><span class="style-copy"><strong>童話 Q 版</strong><small>大頭、小身體的插畫重繪</small></span><span class="selection-dot" aria-hidden="true"></span></button>
+          <button class="style-card" type="button" data-style="pencil" aria-pressed="false"><span class="style-icon pencil-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="m7 23 2-7L22 3l7 7-13 13-7 2Zm2-7 7 7m3-17 7 7M5 29h22"/></svg></span><span class="style-copy"><strong>鉛筆素描</strong><small>灰階線條與紙張質感</small></span><span class="selection-dot" aria-hidden="true"></span></button>
+        </div>
+        <div class="adjust-section"><div class="control-heading"><span class="step">02</span><h2 id="adjust-heading">產生 Q 版</h2></div><div id="local-adjust" hidden><div class="range-heading"><label for="intensity">畫風強度</label><output id="intensity-value" for="intensity">75%</output></div><input type="range" id="intensity" min="0" max="100" value="75"><div class="range-endpoints"><span>原圖</span><span>最強</span></div></div><div id="ai-controls"><p class="ai-setup" id="ai-setup">免帳號、免金鑰。免費服務可能需要排隊，並有每日額度限制。</p><button type="button" id="generate-button" class="button button-primary" disabled>上傳並產生 Q 版</button><a class="provider-link" href="https://huggingface.co/spaces/black-forest-labs/FLUX.2-klein-4B" target="_blank" rel="noopener noreferrer">使用 FLUX.2 klein 4B · 官方服務</a></div><p class="style-note" id="style-note">照片會上傳至 Hugging Face 公開示範服務，服務會暫存圖片。人物相似度及構圖可能改變。</p></div>
+        <div class="export-section"><div class="control-heading"><span class="step">03</span><h2>下載圖片</h2></div><div class="export-settings"><label for="format">下載格式</label><select id="format"><option value="png">PNG · 細節清晰</option><option value="jpeg">JPG · 檔案較小</option></select></div><button type="button" class="button button-primary download-button" id="download-button" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v13m-5-5 5 5 5-5M4 17v4h16v-4"/></svg>下載圖片</button><button type="button" class="text-button share-button" id="share-button" hidden>分享／儲存到手機</button><p class="export-note" id="export-note">選擇照片後即可下載。</p></div>
+      </aside>
+    </div>
+    <footer class="footer"><span>鉛筆素描在裝置上處理，Q 版使用雲端 AI。</span><span>Q 版受服務每日額度限制</span></footer>
+  </main>
+</body>
+</html>
